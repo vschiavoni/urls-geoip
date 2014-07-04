@@ -42,7 +42,7 @@ set style line 30 lt 1 lc rgb "black" lw 0.1
 
 #STYLES FOR MAP
 set style line 40 lt 1 lc rgb "grey" lw 2
-set style line 41 lt 1 lc rgb "red" lw 0.1 pt 7 ps 0.8
+set style line 41 lt 1 lc rgb "red" lw 0.1 pt 7 ps 0.4
 
 #DIFFERENT COLORS FOR LINES USED IN PERCENTILES
 set style line 105 lt 1 lc rgb "#404040" lw 1 pt 9 ps 2
