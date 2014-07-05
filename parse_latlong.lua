@@ -1,5 +1,7 @@
 misc=require"splay.misc"
 io.input("it-2004.sites.resolved")
+io.output("it-2004.sites.gpscoords.lua")
+io.write("sites={}\n")
 l_c=0
 for line in io.lines() do
 	--print(line)
@@ -12,6 +14,7 @@ for line in io.lines() do
 		local idx_long_start,idx_long_stop=line:find('longitude=',1) --from the beginning
 		local idx_long_end=line:find(",",idx_long_stop)
 		local long=line:sub(idx_long_stop+1,idx_long_end-1)					
-		print(long,lat)	
+		print(long,lat)
+		io.write("sites["..l_c.."]={"..long..","..lat.."}\n")
 	end
 end
