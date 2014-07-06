@@ -1,7 +1,41 @@
+--return angle and euclidian distance between two points on a thorus (as lat/long coordinates)
+function ang_dist(x1,y1,x2,y2)	
+	local deltaY=y2-y1
+	local deltaX=x2-x1
+	local deg = math.deg(math.atan2(deltaY,deltaX))
+		
+	--local dist = math.sqrt( deltaX^2 + deltaY^2 )	
+	local dist = math.sqrt( 
+			math.min(math.abs(x1-x2), torus_w - math.abs(x1-x2))^2 + 
+			math.min(math.abs(y2-y1), torus_h - math.abs(y1-y2))^2 )
+	return dist,deg
+end
+--these are the thorus boundaries. we can precompute them, in a real impl
+--the boundaries should be computed against the currently known area. 
+max_x, min_x, max_y, min_y =0,0,0,0
+torus_w, torus_h = nil,nil
+function refresh_torus_boundaries(nodes)
+	for _,coords in pairs(nodes) do
+		local nlat,nlong =coords[1], coords[2]	
+		if nlat<min_x then min_x=nlat end
+		if nlong<min_y then min_y=nlong end		
+		if nlat>max_x then max_x=nlat end
+		if nlong>max_y then max_y=nlong end		
+	end
+	--log:debug("YAO MIN_X:", min_x, "MIN_Y:", min_y, "MAX_X:", max_x, "MAX_Y:", max_y)
+	torus_w = math.max( math.abs(max_x), math.abs(min_x)  ) + math.min( math.abs(max_x), math.abs(min_x) )
+	torus_h = math.max( math.abs(max_y), math.abs(min_y)  ) + math.min( math.abs(max_y), math.abs(min_y) )
+	--log:debug("Torus boundaries refreshed", torus_w, torus_h)
+end
+
 misc=require"splay.misc"
 
 dofile("it-2004.sites.gpscoords.lua") --precomputed by: lua parse_latlong.lua
 assert(sites)
+
+refresh_torus_boundaries(sites)
+print("Torus_w:",torus_w)
+print("Torus_h:",torus_h)
 
 --parts={16,32,64,128,256,512,1024}
 parts={16} 
@@ -51,5 +85,7 @@ for _,p in pairs(parts) do
 		local gravity_long=long/cluster_size
 		local gravity_lat=lat/cluster_size
 		print("Cluster gravity center:",gravity_long,gravity_lat)
+		
+		--now compute teh distance of each point in this cluster from the gravity center
 	end
 end
