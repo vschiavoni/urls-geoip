@@ -1,5 +1,7 @@
+dofile("stats.lua")
+
 --return angle and euclidian distance between two points on a thorus (as lat/long coordinates)
-function ang_dist(x1,y1,x2,y2)	
+function dist_angle(x1,y1,x2,y2)	
 	local deltaY=y2-y1
 	local deltaX=x2-x1
 	local deg = math.deg(math.atan2(deltaY,deltaX))
@@ -84,8 +86,21 @@ for _,p in pairs(parts) do
 		end
 		local gravity_long=long/cluster_size
 		local gravity_lat=lat/cluster_size
-		print("Cluster gravity center:",gravity_long,gravity_lat)
-		
+		print("Cluster gravity center:",gravity_long,gravity_lat)		
 		--now compute teh distance of each point in this cluster from the gravity center
+		--ugly because same loop as before, but how prevent it ?
+		local distances={}
+		for _,site in pairs(cluster) do
+			if sites[site]~=nil then
+				local site_long, site_lat= table.unpack(sites[site]) --long/lat
+				local distance_from_center= dist_angle(gravity_long, gravity_lat, site_long, site_lat)
+				assert(distance_from_center)	
+				table.insert(distances,distance_from_center)			
+			end
+		end
+		table.sort(distances)
+		local percs=assert(percentiles({25,50,75,90},distances))
+		print("Distance percentiles:",table.unpack(percs))
+		print("StDev/Mean distance:", standardDeviation(distances))			
 	end
 end
