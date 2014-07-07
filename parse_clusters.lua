@@ -39,8 +39,8 @@ refresh_torus_boundaries(sites)
 print("Torus_w:",torus_w)
 print("Torus_h:",torus_h)
 
---parts={16,32,64,128,256,512,1024}
-parts={16} 
+parts={16,32,64,128,256,512,1024}
+--parts={16} 
 
 for _,p in pairs(parts) do
 
