@@ -31,7 +31,7 @@ function refresh_torus_boundaries(nodes)
 end
 
 misc=require"splay.misc"
-
+print("Reading coordinate files from : it-2004.sites.gpscoords.lua")
 dofile("it-2004.sites.gpscoords.lua") --precomputed by: lua parse_latlong.lua
 assert(sites)
 
