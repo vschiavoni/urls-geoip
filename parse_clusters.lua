@@ -5,8 +5,6 @@ function dist_angle(x1,y1,x2,y2)
 	local deltaY=y2-y1
 	local deltaX=x2-x1
 	local deg = math.deg(math.atan2(deltaY,deltaX))
-		
-	--local dist = math.sqrt( deltaX^2 + deltaY^2 )	
 	local dist = math.sqrt( 
 			math.min(math.abs(x1-x2), torus_w - math.abs(x1-x2))^2 + 
 			math.min(math.abs(y2-y1), torus_h - math.abs(y1-y2))^2 )
@@ -24,7 +22,6 @@ function refresh_torus_boundaries(nodes)
 		if nlat>max_x then max_x=nlat end
 		if nlong>max_y then max_y=nlong end		
 	end
-	--log:debug("YAO MIN_X:", min_x, "MIN_Y:", min_y, "MAX_X:", max_x, "MAX_Y:", max_y)
 	torus_w = math.max( math.abs(max_x), math.abs(min_x)  ) + math.min( math.abs(max_x), math.abs(min_x) )
 	torus_h = math.max( math.abs(max_y), math.abs(min_y)  ) + math.min( math.abs(max_y), math.abs(min_y) )
 	--log:debug("Torus boundaries refreshed", torus_w, torus_h)
