@@ -35,5 +35,5 @@ for _,p in pairs(parts) do
 	print("Tokens:",tokens_in_file_counter) --all files have the same numbe of tokens, exactly 1 token per site
 	
 	----from this moment on, every clusters[k] lists the sites in the cluster for different groupings	
-	analyze(clusters)	
+	analyze(clusters,"hypergraph",p)	
 end
