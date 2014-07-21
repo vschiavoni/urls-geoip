@@ -27,6 +27,18 @@ function refresh_torus_boundaries(nodes)
 	--log:debug("Torus boundaries refreshed", torus_w, torus_h)
 end
 
+local sin, asin, cos, sqrt = math.sin, math.asin, math.cos, math.sqrt
+local rad = math.rad
+function haversine_distance(a_lon, a_lat, b_lon, b_lat)
+	local radius = 6371.0
+    local lon_d = rad((b_lon - a_lon))
+    local lat_d = rad((a_lat - a_lat))    
+	local t1 = sin(lat_d / 2)^2 + cos(rad(a_lat)) * cos(rad(b_lat)) * sin(lon_d/2)^2
+    local t2 = 2 * asin(sqrt(t1))
+
+    return radius * t2
+end
+
 misc=require"splay.misc"
 print("Reading coordinate files from : it-2004.sites.gpscoords.lua")
 dofile("it-2004.sites.gpscoords.lua") --precomputed by: lua parse_latlong.lua
@@ -90,7 +102,7 @@ for _,p in pairs(parts) do
 		for _,site in pairs(cluster) do
 			if sites[site]~=nil then
 				local site_long, site_lat= table.unpack(sites[site]) --long/lat
-				local distance_from_center= dist_angle(gravity_long, gravity_lat, site_long, site_lat)
+				local distance_from_center= haversine_distance(gravity_long, gravity_lat, site_long, site_lat)
 				assert(distance_from_center)	
 				table.insert(distances,distance_from_center)			
 			end
