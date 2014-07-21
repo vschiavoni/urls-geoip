@@ -7,7 +7,6 @@ parts={16,32,64,128,256}
 for _,p in pairs(parts) do
 	dofile("../k-means-geographic-clustering/k-means-result_k_"..p..".lua")
 	assert(clusters)
-	analyze(clusters)
-	
+	analyze(clusters)	
 	clusters=nil 
 end
