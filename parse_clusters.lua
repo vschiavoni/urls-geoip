@@ -30,11 +30,11 @@ end
 local sin, asin, cos, sqrt, rad = math.sin, math.asin, math.cos, math.sqrt, math.rad
 function haversine_distance(a_lon, a_lat, b_lon, b_lat)
 	local radius = 6371.0
-    local lon_d = rad((b_lon - a_lon))
-    local lat_d = rad((a_lat - a_lat))    
+	local lon_d = rad((b_lon - a_lon))
+	local lat_d = rad((a_lat - a_lat))    
 	local t1 = sin(lat_d / 2)^2 + cos(rad(a_lat)) * cos(rad(b_lat)) * sin(lon_d/2)^2
-    local t2 = 2 * asin(sqrt(t1))
-    return radius * t2
+	local t2 = 2 * asin(sqrt(t1))
+	return radius * t2
 end
 --[[]]
 misc=require"splay.misc"
