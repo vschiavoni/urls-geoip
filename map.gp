@@ -12,7 +12,7 @@ unset ytics
 # plot world map and correspondent locations as a +
 plot \
 	'data/world_10m.txt' with lines ls 40 , \
-	'data/urls_coordinates.txt' with points ls 41 
+	'data/urls_coordinates_new_swapped.txt' with points ls 41 
 set title ""
 set key on
 set border
