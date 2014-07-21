@@ -11,6 +11,7 @@ end
 misc=require"splay.misc"
 print("Reading coordinate files from : it-2004.sites.gpscoords.lua")
 dofile("it-2004.sites.gpscoords.lua") --precomputed by: lua parse_latlong.lua
+dofile("analyze_clusters.lua")
 assert(sites)
 
 parts={16,32,64,128,256,512,1024}
@@ -43,37 +44,6 @@ for _,p in pairs(parts) do
 	end
 	print("Tokens:",tokens_in_file_counter) --all files have the same numbe of tokens, exactly 1 token per site
 	
-	--from this moment on, every clusters[k] lists the sites in the cluster for different groupings
-	for k,cluster in pairs(clusters) do
-		local cluster_size=#cluster
-		print("Cluster:",k,"sites in cluster:",cluster_size)
-		local long,lat=0,0
-		--compute the gravity-center of this cluster
-		for _,site in pairs(cluster) do
-			if sites[site]~=nil then --this was an invalid DNS entryp
-				local site_long, site_lat= table.unpack(sites[site]) --long/lat
-				assert(site_long,site_lat)
-				long=long+site_long
-				lat=lat+site_lat
-			end
-		end
-		local gravity_long=long/cluster_size
-		local gravity_lat=lat/cluster_size
-		print("Cluster gravity center:",gravity_long,gravity_lat)		
-		--now compute teh distance of each point in this cluster from the gravity center
-		--ugly because same loop as before, but how prevent it ?
-		local distances={}
-		for _,site in pairs(cluster) do
-			if sites[site]~=nil then
-				local site_long, site_lat= table.unpack(sites[site]) --long/lat
-				local distance_from_center= haversine_distance(gravity_long, gravity_lat, site_long, site_lat)
-				assert(distance_from_center)	
-				table.insert(distances,distance_from_center)			
-			end
-		end
-		table.sort(distances)
-		local percs=assert(percentiles({25,50,75,90},distances))
-		print("Distance percentiles:",table.unpack(percs))
-		print("StDev/Mean distance:", standardDeviation(distances))			
-	end
+	----from this moment on, every clusters[k] lists the sites in the cluster for different groupings	
+	analyze(clusters)	
 end
