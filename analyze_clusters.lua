@@ -57,6 +57,7 @@ function analyze(clusters)
 		end
 		
 		table.sort(distances)
+		print("Total distance values per cluster:",#distances)
 		local percs=assert(percentiles({25,50,75,90},distances))
 		print("Distance percentiles:",table.unpack(percs))
 		print("StDev/Mean distance:", standardDeviation(distances))			
