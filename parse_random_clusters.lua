@@ -7,6 +7,6 @@ parts={16,32,64,128,256,512,1024}
 for _,p in pairs(parts) do
 	dofile("random_cluster_"..p..".lua")
 	assert(clusters)
-	analyze(clusters)	
+	analyze(clusters,"random",p)	
 	clusters=nil 
 end
