@@ -10,7 +10,7 @@ function haversine_distance(a_lon, a_lat, b_lon, b_lat)
 	return radius * t2
 end
 
-function analyze(clusters)
+function analyze(clusters,type_of_cluster,partitions)
 	--from this moment on, every clusters[k] lists the sites in the cluster for different groupings
 	for k,cluster in pairs(clusters) do
 		local cluster_size=#cluster
@@ -60,7 +60,12 @@ function analyze(clusters)
 		print("Total distance values per cluster:",#distances)
 		local percs=assert(percentiles({25,50,75,90},distances))
 		print("Distance percentiles:",table.unpack(percs))
-		print("StDev/Mean distance:", standardDeviation(distances))			
+		print("StDev/Mean distance:", standardDeviation(distances))
+		io.output("distances_"..type_of_cluster.."_"..partitions..".txt") --generate CDFs over these values
+		for _,dis in pairs(distances) do
+			io.write(dis.."\n")
+		end
+		io.close()			
 	end
 	
 end
