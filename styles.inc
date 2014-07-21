@@ -10,8 +10,8 @@
 set pointsize 2
 set style line 1 lt 1 lc rgb "black" lw 4 pt 9 ps 2
 set style line 2 lt 2 lc rgb "black" lw 4 pt 11 ps 2
-set style line 3 lt 3 lc rgb "black" lw 4 pt 13 ps 2
-set style line 4 lt 4 lc rgb "black" lw 4 pt 8 ps 1.8
+set style line 3 lt 3 lc rgb "red"   lw 4 pt 13 ps 2
+set style line 4 lt 4 lc rgb "blue" lw 4 pt 8 ps 1.8
 
 set style line 5 lt 2 lc rgb "black" lw 4 pt 10 ps 1.8
 set style line 6 lt 2 lc rgb "black" lw 4 pt 12 ps 2
