@@ -16,14 +16,21 @@ function analyze(clusters)
 		local cluster_size=#cluster
 		print("Cluster:",k,"sites in cluster:",cluster_size)
 		local long,lat=0,0
-		--compute the gravity-center of this cluster
+		--compute the gravity-center/centroid of this cluster
 		for _,site in pairs(cluster) do
-			if sites[site]~=nil then --this was an invalid DNS entryp
-				local site_long, site_lat= table.unpack(sites[site]) --long/lat
+			local site_long, site_lat = nil, nil						
+			if type(site)=="table" then
+				site_long, site_lat= table.unpack(site) --long/lat
 				assert(site_long,site_lat)
-				long=long+site_long
-				lat=lat+site_lat
+			elseif 	type(site)=="number" then
+				if sites[site]~=nil then 
+					site_long, site_lat= table.unpack(sites[site]) --long/lat
+				end				
 			end
+			if site_long and site_lat then
+				long=long+site_long			
+				lat	=lat+site_lat
+			end							
 		end
 		local gravity_long=long/cluster_size
 		local gravity_lat=lat/cluster_size
@@ -32,13 +39,23 @@ function analyze(clusters)
 		--ugly because same loop as before, but how prevent it ?
 		local distances={}
 		for _,site in pairs(cluster) do
-			if sites[site]~=nil then
-				local site_long, site_lat= table.unpack(sites[site]) --long/lat
+			
+			local site_long, site_lat = nil, nil
+			if type(site)=="table" then
+				site_long, site_lat= table.unpack(site) --long/lat
+				assert(site_long,site_lat)
+			elseif 	type(site)=="number" then
+				if sites[site]~=nil then 
+					site_long, site_lat= table.unpack(sites[site]) --long/lat
+				end				
+			end
+			if site_long and site_lat then
 				local distance_from_center= haversine_distance(gravity_long, gravity_lat, site_long, site_lat)
 				assert(distance_from_center)	
-				table.insert(distances,distance_from_center)			
-			end
+				table.insert(distances,distance_from_center)
+			end				
 		end
+		
 		table.sort(distances)
 		local percs=assert(percentiles({25,50,75,90},distances))
 		print("Distance percentiles:",table.unpack(percs))
