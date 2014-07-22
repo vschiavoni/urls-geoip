@@ -71,7 +71,7 @@ function analyze(clusters,type_of_cluster,partitions)
 		print("StDev/Mean distance:", stdev, avg)	
 	end
 	table.sort(all_avg_stdev,function(a,b) return a[1]<b[1] end)
-	local f,err = io.open("data/avg_distance_"..type_of_cluster.."_"..partitions..".txt","w")
+	local f,err = io.open("data/avg_distances_"..type_of_cluster.."_"..partitions..".txt","w")
 	for i,v in pairs(all_avg_stdev) do
 		f:write(i," ",v[1]," ",v[2],"\n")					
 	end
