@@ -12,7 +12,8 @@ end
 
 function analyze(clusters,type_of_cluster,partitions)
 	--from this moment on, every clusters[k] lists the sites in the cluster for different groupings
-	for k,cluster in pairs(clusters) do
+	local all_avg_stdev={}
+	for k,cluster in pairs(clusters) do				
 		local cluster_size=#cluster
 		print("Cluster:",k,"sites in cluster:",cluster_size)
 		local long,lat=0,0
@@ -59,13 +60,20 @@ function analyze(clusters,type_of_cluster,partitions)
 		table.sort(distances)
 		print("Total distance values per cluster:",#distances)
 		local percs=assert(percentiles({25,50,75,90},distances))
-		print("Distance percentiles:",table.unpack(percs))
-		print("StDev/Mean distance:", standardDeviation(distances))
 		io.output("distances_"..type_of_cluster.."_"..partitions..".txt") --generate CDFs over these values
 		for _,dis in pairs(distances) do
 			io.write(dis.."\n")
 		end
-		io.close()			
+		io.close()
+		print("Distance percentiles:",table.unpack(percs))
+		stdev,avg=standardDeviation(distances)
+		table.insert(all_avg_stdev,{avg,stdev})
+		print("StDev/Mean distance:", stdev, avg)	
 	end
-	
+	table.sort(all_avg_stdev,function(a,b) return a[1]<b[1] end)
+	local f,err = io.open("data/avg_distance_"..type_of_cluster.."_"..partitions..".txt","w")
+	for i,v in pairs(all_avg_stdev) do
+		f:write(i," ",v[1]," ",v[2],"\n")					
+	end
+	f:close()
 end
