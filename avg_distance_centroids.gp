@@ -20,7 +20,7 @@ set rmargin 1
 unset key
 set multiplot
 
-set ylabel "Avg/StDev from\n centroid (miles)"
+set ylabel "Average distance\nfrom centroid (miles)"
 #set xrange [0:4000]
 #set xtics ("0.1KB" 0.1, "1KB" 1,"10KB" 10,"100KB" 100, "1MB" 1000)
 #set logscale x
