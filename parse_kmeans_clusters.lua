@@ -5,7 +5,7 @@ dofile("analyze_clusters.lua")
 parts={16,32,64,128,256,512,1024}
 
 for _,p in pairs(parts) do
-	dofile("../k-means-geographic-clustering/k-means-result_k_"..p..".lua")
+	dofile("k-means-result_k_"..p..".lua")
 	assert(clusters)
 	analyze(clusters,"kmeans",p)	
 	clusters=nil 
