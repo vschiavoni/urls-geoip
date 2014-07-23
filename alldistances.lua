@@ -30,8 +30,8 @@ for i=1,#sites do
 	--	table.insert(i_dist,-1)
 	end
 	print(table.concat(i_dist," "))
-	if i%100==0 then
-		print(string.format("elapsed time: %.2f", os.clock() - x),i.."/"..#sites)
-	end
+	--if i%100==0 then
+	--	print(string.format("elapsed time: %.2f", os.clock() - x),i.."/"..#sites)
+	--end
 	--print(string.format("elapsed time: %.2f\n", (os.clock() - x), "Done: ",i.."/"..#sites)
 end
