@@ -86,11 +86,19 @@ function analyze(clusters,type_of_cluster,partitions)
 	end
 	f:close()
 	
+	local maxWeightedPart=math.max(table.unpack(all_cluster_sizes))
+	local avgPartWeight= mean(all_cluster_sizes)
+	local imbalance=(maxWeightedPart-avgPartWeight)/avgPartWeight
 	local sizef_name="size_clusters_"..type_of_cluster.."_"..partitions..".txt"
 	local sizef,err=io.open(sizef_name,"w")
 	sizef:write(table.concat(all_cluster_sizes,"\n"))
 	sizef:close()
-	os.execute("ruby gen_cdf.rb -f "..sizef_name.." > data/cdf_"..sizef_name)
+	--write the imbalance to the head of each file
+	os.execute("touch data/cdf_"..sizef_name)
+	local cdffile,err=io.open("data/cdf_"..sizef_name,"w")
+	cdffile:write("#imbalance "..imbalance.."\n")
+	cdffile:close()
+	os.execute("ruby gen_cdf.rb -f "..sizef_name.." >> data/cdf_"..sizef_name)
 	os.remove(sizef_name)
 	
 end
