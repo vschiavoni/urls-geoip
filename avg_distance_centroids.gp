@@ -20,7 +20,7 @@ set rmargin 1
 unset key
 set multiplot
 
-set ylabel "Average distance\nfrom centroid (miles)"
+set ylabel "Average distance\nfrom centroids (miles)"
 #set xrange [0:4000]
 #set xtics ("0.1KB" 0.1, "1KB" 1,"10KB" 10,"100KB" 100, "1MB" 1000)
 #set logscale x
@@ -125,6 +125,7 @@ plot \
 
 X_POS=0
 Y_POS=0
+set ylabel "Average distance\nfrom centroids (miles)"
 set title "256 clusters" offset 0,-0.8
 set xrange [0:257]
 set origin X_MARGIN+(X_POS*(WIDTH_IND+WIDTH_BETWEEN_X)), Y_MARGIN+(Y_POS*(HEIGHT_IND+WIDTH_BETWEEN_Y))
@@ -146,6 +147,7 @@ plot \
 
 X_POS=1
 Y_POS=0
+unset ylabel
 set title "512 clusters" offset 0,-0.8
 set xrange [0:513]
 set origin X_MARGIN+(X_POS*(WIDTH_IND+WIDTH_BETWEEN_X)), Y_MARGIN+(Y_POS*(HEIGHT_IND+WIDTH_BETWEEN_Y))
@@ -172,7 +174,7 @@ set title "1024 clusters" offset 0,-0.8
 set xrange [0:1025]
 set origin X_MARGIN+(X_POS*(WIDTH_IND+WIDTH_BETWEEN_X)), Y_MARGIN+(Y_POS*(HEIGHT_IND+WIDTH_BETWEEN_Y))
 set size WIDTH_IND,HEIGHT_IND
-set key samplen 1 width -1 at 2500,3000
+set key samplen 1 width -1 at 2000,3000
 plot \
 	'data/avg_distances_hypergraph_1024.txt'  u ($1):($2)\
 		 w l ls 2 notitle 'HyperGraph',\
