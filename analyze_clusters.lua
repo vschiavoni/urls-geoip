@@ -1,3 +1,4 @@
+os=require"os"
 dofile("stats.lua")
 
 local sin, asin, cos, sqrt, rad = math.sin, math.asin, math.cos, math.sqrt, math.rad
@@ -13,8 +14,12 @@ end
 function analyze(clusters,type_of_cluster,partitions)
 	--from this moment on, every clusters[k] lists the sites in the cluster for different groupings
 	local all_avg_stdev={}
+	local all_cluster_sizes={}
 	for k,cluster in pairs(clusters) do				
+		local cluster_coords,err = io.open("data/cluster_coordinates_"..type_of_cluster.."_"..partitions.."_"..k..".txt","w")
+	
 		local cluster_size=#cluster
+		table.insert(all_cluster_sizes, cluster_size)
 		print("Cluster:",k,"sites in cluster:",cluster_size)
 		local long,lat=0,0
 		--compute the gravity-center/centroid of this cluster
@@ -32,7 +37,11 @@ function analyze(clusters,type_of_cluster,partitions)
 				long=long+site_long			
 				lat	=lat+site_lat
 			end							
+			if site_long and site_lat then
+				cluster_coords:write(site_lat," ",site_long,"\n")
+			end			
 		end
+		cluster_coords:close()
 		local gravity_long=long/cluster_size
 		local gravity_lat=lat/cluster_size
 		print("Cluster gravity center:",gravity_long,gravity_lat)		
@@ -76,4 +85,12 @@ function analyze(clusters,type_of_cluster,partitions)
 		f:write(i," ",v[1]," ",v[2],"\n")					
 	end
 	f:close()
+	
+	local sizef_name="size_clusters_"..type_of_cluster.."_"..partitions..".txt"
+	local sizef,err=io.open(sizef_name,"w")
+	sizef:write(table.concat(all_cluster_sizes,"\n"))
+	sizef:close()
+	os.execute("ruby gen_cdf.rb -f "..sizef_name.." > data/cdf_"..sizef_name)
+	os.remove(sizef_name)
+	
 end

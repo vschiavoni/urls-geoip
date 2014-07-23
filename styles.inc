@@ -40,9 +40,39 @@ set style line 20 lt 1 lc rgb "black" lw 0.5
 
 set style line 30 lt 1 lc rgb "black" lw 0.1
 
+
+#set linetype  1 lc rgb "dark-violet" lw 1
+#set linetype  2 lc rgb "#009e73" lw 1
+#set linetype  3 lc rgb "#56b4e9" lw 1
+#set linetype  4 lc rgb "#e69f00" lw 1
+#set linetype  5 lc rgb "#f0e442" lw 1
+#set linetype  6 lc rgb "#0072b2" lw 1
+#set linetype  7 lc rgb "#e51e10" lw 1
+#set linetype  8 lc rgb "black"   lw 1
+#set linetype  9 lc rgb "gray50"  lw 1
+
+
+
 #STYLES FOR MAP
-set style line 40 lt 1 lc rgb "grey" lw 2
-set style line 41 lt 1 lc rgb "red" lw 0.1 pt 7 ps 0.4
+set style line 400 lt 1 lc rgb "grey" 			lw 2
+set style line 40 lt 1 lc rgb "black" 			lw 0.05 pt 7 ps 0.15
+set style line 41 lt 1 lc rgb "red" 		   	lw 0.05 pt 7 ps 0.15
+set style line 42 lt 1 lc rgb "blue" 	        lw 0.05 pt 7 ps 0.15
+set style line 43 lt 1 lc rgb "EE82EE"         	lw 0.05 pt 7 ps 0.15
+set style line 44 lt 1 lc rgb "#009e73"		 	lw 0.05 pt 7 ps 0.15
+set style line 45 lt 1 lc rgb "#56b4e9"		 	lw 0.05 pt 7 ps 0.15
+set style line 46 lt 1 lc rgb "#e69f00"		 	lw 0.05 pt 7 ps 0.15
+set style line 47 lt 1 lc rgb "#f0e442"		 	lw 0.05 pt 7 ps 0.15
+set style line 48 lt 1 lc rgb "#0072b2"		 	lw 0.05 pt 7 ps 0.15
+set style line 49 lt 1 lc rgb "#e51e10"		 	lw 0.05 pt 7 ps 0.15
+set style line 50 lt 1 lc rgb "black"  		 	lw 0.05 pt 7 ps 0.15
+set style line 51 lt 1 lc rgb "FF1493"    		lw 0.05 pt 7 ps 0.15
+set style line 52 lt 1 lc rgb "FFD700" 			lw 0.05 pt 7 ps 0.15
+set style line 53 lt 1 lc rgb "E6E6FA" 			lw 0.05 pt 7 ps 0.15
+set style line 54 lt 1 lc rgb "20B2AA" 			lw 0.05 pt 7 ps 0.15
+set style line 55 lt 1 lc rgb "800000" 			lw 0.05 pt 7 ps 0.15
+set style line 56 lt 1 lc rgb "3CB371" 			lw 0.05 pt 7 ps 0.15
+
 
 #DIFFERENT COLORS FOR LINES USED IN PERCENTILES
 set style line 105 lt 1 lc rgb "#404040" lw 1 pt 9 ps 2
