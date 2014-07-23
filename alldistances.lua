@@ -17,14 +17,21 @@ end
 dofile("it-2004.sites.gpscoords.lua")
 x = os.clock()
 for i=1,#sites do
+	local i_dist={}
 	if sites[i]~=nil then
-		for j=2,#sites do
+		for j=1,#sites do
 			if sites[j]~=nil then
-				haversine_distance(sites[i][1], sites[i][2], sites[j][1], sites[j][2])
+				table.insert(i_dist,haversine_distance(sites[i][1], sites[i][2], sites[j][1], sites[j][2]))
+			--else
+			--	table.insert(i_dist[j],-1)					
 			end
 		end
+	--else
+	--	table.insert(i_dist,-1)
 	end
-	print(string.format("elapsed time: %.2f", os.clock() - x),i.."/"..#sites)
-	
+	print(table.concat(i_dist," "))
+	if i%100==0 then
+		print(string.format("elapsed time: %.2f", os.clock() - x),i.."/"..#sites)
+	end
 	--print(string.format("elapsed time: %.2f\n", (os.clock() - x), "Done: ",i.."/"..#sites)
 end
