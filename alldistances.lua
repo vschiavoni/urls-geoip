@@ -1,8 +1,5 @@
 --[[
 Compute the all-pairs distance between the coordiantes.
-This code is serial, and it takes approx 3h30min to complete on the input coordantes.
-Once parallelized (using LuaLanes or others), we should observe massive speedup on multi-core machines.
-
 --]]
 require"os"
 local sin, asin, cos, sqrt, rad = math.sin, math.asin, math.cos, math.sqrt, math.rad
@@ -14,24 +11,29 @@ function haversine_distance(a_lon, a_lat, b_lon, b_lat)
 	local t2 = 2 * asin(sqrt(t1))
 	return radius * t2
 end
-dofile("it-2004.sites.gpscoords.lua")
+--the dofile imports the sites table in the global namespace
+os.setlocale("C")
+dofile("it-2004.sites.gpscoords-0_65039.lua")
+dofile("it-2004.sites.gpscoords-65040_132020.lua")
+dofile("it-2004.sites.gpscoords-132021_141252.lua")
+io.stdout:write(#sites,"\n")
 x = os.clock()
 for i=1,#sites do
 	local i_dist={}
+	local c_i=1 --index for the current column
 	if sites[i]~=nil then
 		for j=1,#sites do
 			if sites[j]~=nil then
-				table.insert(i_dist,haversine_distance(sites[i][1], sites[i][2], sites[j][1], sites[j][2]))
-			--else
-			--	table.insert(i_dist[j],-1)					
+				i_dist[c_i]= haversine_distance(sites[i][1], sites[i][2], sites[j][1], sites[j][2])				
+				--table.insert(i_dist,haversine_distance(sites[i][1], sites[i][2], sites[j][1], sites[j][2]))
+			else
+				i_dist[c_i]=-1
 			end
+			c_i=c_i+1
 		end
-	--else
-	--	table.insert(i_dist,-1)
 	end
-	print(table.concat(i_dist," "))
-	--if i%100==0 then
-	--	print(string.format("elapsed time: %.2f", os.clock() - x),i.."/"..#sites)
-	--end
-	--print(string.format("elapsed time: %.2f\n", (os.clock() - x), "Done: ",i.."/"..#sites)
+	io.stdout:write(table.concat(i_dist," "),"\n")
+	if i%100==0 then
+		io.stderr:write(string.format("Elapsed: %.2f", os.clock() - x)," ",i,"/",#sites," ",(i/#sites)*100,"\n")
+	end
 end
