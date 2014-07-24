@@ -1,8 +1,9 @@
 --[[
 Compute the all-pairs distance between the coordiantes.
+If sin/cos/ become too slow, port to: http://lab.polygonal.de/?p=205
 --]]
 require"os"
-local sin, asin, cos, sqrt, rad = math.sin, math.asin, math.cos, math.sqrt, math.rad
+local sin, asin, cos, sqrt = math.sin, math.asin, math.cos, math.sqrt
 local dr2 = 0.0174532925199433 --replace calls to math.rad(..)
 function haversine_distance(a_lon, a_lat, b_lon, b_lat)
 	local radius = 6371.0
@@ -20,24 +21,25 @@ dofile("it-2004.sites.gpscoords-65040_132020.lua")
 dofile("it-2004.sites.gpscoords-132021_141252.lua")
 --o.stderr:write(#sites,"\n")
 x = os.clock()
-for i=1,#sites do
+local entries=#sites
+for i=1,entries do
 	local i_dist={}
 	local c_i=1 --index for the current column
 	if sites[i]~=nil then
 		local sites_i = sites[i]
-		for j=1,#sites do
+		for j=1,entries do
 			local sites_j = sites[j] 
 			if sites_j ~=nil then
 				i_dist[c_i]=  haversine_distance(sites_i[1], sites_i[2], sites_j[1], sites_j[2])
 			else
-				i_dist[c_i]=-1
+				i_dist[c_i]= -1
 			end
 			c_i=c_i+1
 		end
 	end
 	local to_s=table.concat(i_dist," ")
 	io.stdout:write(to_s,"\n")	
-	if i%100==0 then
-		io.stderr:write(string.format("Elapsed: %.2f", os.clock() - x)," ",i,"/",#sites," ",(i/#sites)*100,"\n")
-	end
+	--if i%100==0 then
+	--	io.stderr:write(string.format("Elapsed: %.2f", os.clock() - x)," ",i,"/",#sites," ",(i/#sites)*100,"\n")
+	--end
 end
