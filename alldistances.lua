@@ -18,28 +18,25 @@ dofile("it-2004.sites.gpscoords-0_65039.lua")
 dofile("it-2004.sites.gpscoords-65040_132020.lua")
 --io.stderr:write(#sites,"\n")
 dofile("it-2004.sites.gpscoords-132021_141252.lua")
---io.stderr:write(#sites,"\n")
+--o.stderr:write(#sites,"\n")
 x = os.clock()
 for i=1,#sites do
-	local i_dist="" --{}
+	local i_dist={}
 	local c_i=1 --index for the current column
 	if sites[i]~=nil then
 		local sites_i = sites[i]
 		for j=1,#sites do
 			local sites_j = sites[j] 
 			if sites_j ~=nil then
-				--i_dist[c_i]=  haversine_distance(sites_i[1], sites_i[2], sites_j[1], sites_j[2])
-				i_dist = i_dist.." "..haversine_distance(sites_i[1], sites_i[2], sites_j[1], sites_j[2])				
+				i_dist[c_i]=  haversine_distance(sites_i[1], sites_i[2], sites_j[1], sites_j[2])
 			else
-				--i_dist[c_i]=-1
-				i_dist = i_dist .. " -1"								
+				i_dist[c_i]=-1
 			end
 			c_i=c_i+1
 		end
 	end
-	--local to_s=table.concat(i_dist," ")
-	--io.stdout:write(to_s,"\n")
-	io.stdout:write(i_dist,"\n")	
+	local to_s=table.concat(i_dist," ")
+	io.stdout:write(to_s,"\n")	
 	if i%100==0 then
 		io.stderr:write(string.format("Elapsed: %.2f", os.clock() - x)," ",i,"/",#sites," ",(i/#sites)*100,"\n")
 	end
