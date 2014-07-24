@@ -24,10 +24,11 @@ for i=1,#sites do
 	local i_dist={}
 	local c_i=1 --index for the current column
 	if sites[i]~=nil then
+		local sites_i = sites[i]
 		for j=1,#sites do
-			if sites[j]~=nil then
-				i_dist[c_i]= haversine_distance(sites[i][1], sites[i][2], sites[j][1], sites[j][2])				
-				--table.insert(i_dist,haversine_distance(sites[i][1], sites[i][2], sites[j][1], sites[j][2]))
+			local sites_j = sites[j] 
+			if sites_j ~=nil then
+				i_dist[c_i]= haversine_distance(sites_i[1], sites_i[2], sites_j[1], sites_j[2])				
 			else
 				i_dist[c_i]=-1
 			end
