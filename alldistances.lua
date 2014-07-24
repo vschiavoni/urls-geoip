@@ -35,7 +35,8 @@ for i=1,#sites do
 			c_i=c_i+1
 		end
 	end
-	io.stdout:write(table.concat(i_dist," "),"\n")
+	local to_s=table.concat(i_dist," "),"\n"
+	io.stdout:write(to_s)
 	if i%100==0 then
 		io.stderr:write(string.format("Elapsed: %.2f", os.clock() - x)," ",i,"/",#sites," ",(i/#sites)*100,"\n")
 	end
