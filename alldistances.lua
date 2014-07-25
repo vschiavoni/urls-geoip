@@ -15,22 +15,24 @@ function haversine_distance(a_lon, a_lat, b_lon, b_lat)
 end
 --the dofile imports the sites table in the global namespace
 dofile("it-2004.sites.gpscoords-0_65039.lua")
---io.stderr:write(#sites,"\n")
 dofile("it-2004.sites.gpscoords-65040_132020.lua")
---io.stderr:write(#sites,"\n")
 dofile("it-2004.sites.gpscoords-132021_141252.lua")
---o.stderr:write(#sites,"\n")
 x = os.clock()
 local entries=#sites
 for i=1,entries do
 	local i_dist={}
 	local c_i=1 --index for the current column
 	if sites[i]~=nil then
-		local sites_i = sites[i]
+		local sites_i_1 = sites[i][1]
+		local sites_i_2 = sites[i][2]
 		for j=1,entries do
 			local sites_j = sites[j] 
 			if sites_j ~=nil then
-				i_dist[c_i]=  haversine_distance(sites_i[1], sites_i[2], sites_j[1], sites_j[2])
+				if c_i==j then 
+					i_dist[c_i]= 0 
+				else
+					i_dist[c_i]=  haversine_distance(sites_i_1, sites_i_2, sites_j[1], sites_j[2])
+				end
 			else
 				i_dist[c_i]= -1
 			end
@@ -38,8 +40,9 @@ for i=1,entries do
 		end
 	end
 	local to_s=table.concat(i_dist," ")
-	io.stdout:write(to_s,"\n")	
-	--if i%100==0 then
-	--	io.stderr:write(string.format("Elapsed: %.2f", os.clock() - x)," ",i,"/",#sites," ",(i/#sites)*100,"\n")
-	--end
+	io.stdout:write(to_s,"\n")			
+	if i%100==0 then
+		io.stderr:write(string.format("Elapsed: %.2f", os.clock() - x)," ",i,"/",#sites," ",(i/#sites)*100,"\n")
+	end
 end
+out:close()
