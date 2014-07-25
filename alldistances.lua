@@ -28,7 +28,7 @@ for i=1,entries do
 		for j=1,entries do
 			local sites_j = sites[j] 
 			if sites_j ~=nil then
-				if c_i==j then 
+				if i==j then 
 					i_dist[c_i]= 0 
 				else
 					i_dist[c_i]=  haversine_distance(sites_i_1, sites_i_2, sites_j[1], sites_j[2])
