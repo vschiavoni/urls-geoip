@@ -25,7 +25,8 @@ for line in io.lines() do
 		--add small noise to the values, to prevent duplicates as much as possible
 		lat =tonumber(lat) +(math.random(1,BIG_UPPERBOUND)/BIG_UPPERBOUND)*pm[math.random(2)]
 		long=tonumber(long)+(math.random(1,BIG_UPPERBOUND)/BIG_UPPERBOUND)*pm[math.random(2)]						
-		print(lat..","..long..","..domain)
+		--print(lat..","..long)
+		io.stderr:write(l_c.." "..domain,"\n")		
 		io.write("sites["..l_c.."]={"..long..","..lat..",\""..domain.."\"}\n")
 	end
 end
