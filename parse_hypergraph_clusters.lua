@@ -1,9 +1,8 @@
 misc=require"splay.misc"
 print("Reading coordinate files from : it-2004.sites.gpscoords.lua")
-dofile("it-2004.sites.gpscoords.lua") --precomputed by: lua parse_latlong.lua
+dofile("it-2004.sites.gpscoords_dom.lua") --precomputed by: lua parse_latlong.lua
 dofile("analyze_clusters.lua")
-assert(sites)
-
+init_gps_dom_cache()
 parts={16,32,64,128,256,512,1024}
 
 for _,p in pairs(parts) do
@@ -15,6 +14,7 @@ for _,p in pairs(parts) do
 	local tokens_in_file_counter=0 
 	local ln=0 --line number in current file
 	local current_token=0
+		
 	for l in io.lines() do
 		ln=ln+1		
 		local tokens_in_line=misc.split(l," ")
@@ -29,11 +29,13 @@ for _,p in pairs(parts) do
 			if clusters[current_token_cluster]==nil then
 				clusters[current_token_cluster]={}
 			end
-			table.insert(clusters[current_token_cluster],tonumber(current_token))
+			local node_id=tonumber(current_token)
+			if sites[node_id]~=nil then
+				table.insert(clusters[current_token_cluster],node_id)
+			end
 		end		
 	end
-	print("Tokens:",tokens_in_file_counter) --all files have the same numbe of tokens, exactly 1 token per site
-	
+	print("Tokens:",tokens_in_file_counter) --all files have the same number of tokens, exactly 1 token per site		
 	----from this moment on, every clusters[k] lists the sites in the cluster for different groupings	
-	analyze(clusters,"hypergraph",p)	
+	analyze(clusters,"hypergraph",p,sites)	
 end
