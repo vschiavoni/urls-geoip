@@ -1,5 +1,17 @@
 os=require"os"
 dofile("stats.lua")
+gps_dom_cache={}
+function init_gps_dom_cache()
+	for k,v in pairs(sites) do
+		local key=v[1]..":"..v[2]
+		gps_dom_cache[key]=v[3]
+	end
+	print("GPS_DOM_CACHE initialized.")
+end
+function gps_to_domain(t)
+	local key=t[1]..":"..t[2]
+	return gps_dom_cache[key]
+end
 
 local sin, asin, cos, sqrt, rad = math.sin, math.asin, math.cos, math.sqrt, math.rad
 function haversine_distance(a_lon, a_lat, b_lon, b_lat)
@@ -11,7 +23,23 @@ function haversine_distance(a_lon, a_lat, b_lon, b_lat)
 	return radius * t2
 end
 
-function analyze(clusters,type_of_cluster,partitions)
+function analyze(clusters,type_of_cluster,partitions, sites)
+	local cluster_domains,err=io.open("cluster_domains_"..type_of_cluster.."_"..partitions..".txt","w")	
+	for k,nodes_cluster in pairs(clusters) do
+		for _,v in pairs(nodes_cluster) do
+			if type(v)=="number" then
+		 		cluster_domains:write(k, " ", sites[v][3],"\n")		
+			else
+				if type_of_cluster=="kmeans" then
+					v[1],v[2]=v[2],v[1] --in kmeans, values are swapped
+				end
+				local domain=gps_to_domain(v)
+				cluster_domains:write(k, " ", domain,"\n")					
+			end	
+		end
+	end	
+	cluster_domains:close()
+	
 	--from this moment on, every clusters[k] lists the sites in the cluster for different groupings
 	local all_avg_stdev={}
 	local all_cluster_sizes={}
