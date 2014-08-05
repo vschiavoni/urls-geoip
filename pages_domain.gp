@@ -16,7 +16,7 @@ set ytics 0,20,100
 set yrange [11:100]
 #set logscale y
 set logscale x
-set key bottom left samplen 1 width 1
+set key bottom right samplen 1 width 1
 
 plot \
 	'data/cdf_pages_domain_all.txt'  u ($1):($6*100)\
