@@ -57,15 +57,14 @@ function analyze(clusters,type_of_cluster,partitions, sites, imbalance_file)
 	--from this moment on, every clusters[k] lists the sites in the cluster for different groupings
 	local all_avg_stdev={}
 	local all_cluster_sizes={}
+	local all_nodes_in_cluster={}
 	for k,cluster in pairs(clusters) do				
 		local cluster_coords,err = io.open("data/cluster_coordinates_"..type_of_cluster.."_"..partitions.."_"..k..".txt","w")
-	
 		local cluster_size=#cluster
+		table.insert(all_nodes_in_cluster, cluster_size) 
+		print("Cluster:",k,"sites in cluster:",cluster_size)
 		
 		local pages_for_sites_in_cluster=0
-		
-		--table.insert(all_cluster_sizes, cluster_size) --does not take into account pagesPerSite
-		print("Cluster:",k,"sites in cluster:",cluster_size)
 		local long,lat=0,0
 		--compute the gravity-center/centroid of this cluster
 		for _,site in pairs(cluster) do
@@ -155,7 +154,7 @@ function analyze(clusters,type_of_cluster,partitions, sites, imbalance_file)
 	
 	local sizef_name="size_clusters_"..type_of_cluster.."_"..partitions..".txt"
 	local sizef,err=io.open("data/"..sizef_name,"w")
-	sizef:write(table.concat(all_cluster_sizes,"\n"))
+	sizef:write(table.concat(all_nodes_in_cluster,"\n"))
 	sizef:close()
 	--write the imbalance to the head of each file
 	os.execute("touch data/cdf_"..sizef_name)
