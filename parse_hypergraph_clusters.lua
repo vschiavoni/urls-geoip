@@ -1,9 +1,10 @@
 misc=require"splay.misc"
-print("Reading coordinate files from : it-2004.sites.gpscoords.lua")
 dofile("it-2004.sites.gpscoords_dom.lua") --precomputed by: lua parse_latlong.lua
 dofile("analyze_clusters.lua")
 init_gps_dom_cache()
 parts={16,32,64,128,256,512,1024}
+type_of_cluster="hypergraph"
+imbalance_file,err=io.open("data/imbalance_"..type_of_cluster..".txt","w")	
 
 for _,p in pairs(parts) do
 
@@ -37,5 +38,7 @@ for _,p in pairs(parts) do
 	end
 	print("Tokens:",tokens_in_file_counter) --all files have the same number of tokens, exactly 1 token per site		
 	----from this moment on, every clusters[k] lists the sites in the cluster for different groupings	
-	analyze(clusters,"hypergraph",p,sites)	
+	analyze(clusters,type_of_cluster,p,sites, imbalance_file)	
 end
+
+imbalance_file:close()

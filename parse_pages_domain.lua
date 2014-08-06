@@ -4,6 +4,7 @@ dofile("it-2004.sites.gpscoords-132021_141252.lua")
 assert(sites)
 
 misc=require"splay.misc"
+split=misc.split
 io.input("it-2004.pageToSiteMap")
 p=0
 invalid_map={} --position in this map=site, value=number of pages in site
@@ -14,7 +15,7 @@ invalid_sites=0
 invalid_sites_pages=0
 for l in io.lines() do
 	p=p+1
-	local t=misc.split(l)
+	local t= split(l)
 	local site=tonumber(t[2])
 	
 	local is_valid=true
@@ -36,15 +37,15 @@ for l in io.lines() do
 end
 print("Total Pages:",p, "Valid pages:", (p-invalid_sites_pages), "Invalid Pages:",invalid_sites_pages)
 
-a=0
+im=0
 for _,_ in pairs(invalid_map) do
-	a=a+1
+	im=im+1
 end
-v=0
+vm=0
 for _,_ in pairs(valid_map) do
-	v=v+1
+	vm=vm+1
 end
-print("all_map entries:",a," valid_map entries:",v)
+print("invalid_map entries:",im," valid_map entries:",vm)
 
 local f,err=io.open("pages_domain_invalid_count.txt","w")
 for k,v in pairs(invalid_map) do
@@ -55,5 +56,13 @@ f:close()
 local f,err=io.open("pages_domain_valid_count.txt","w")
 for k,v in pairs(valid_map) do
 	f:write(k," ",v,"\n")
+end
+f:close()
+
+--write to file the valid_map with the corresponding values
+local f,err=io.open("valid_domains_pages.lua","w")
+f:write("domains_pages={}\n")
+for k,v in pairs(valid_map) do
+	f:write("domains_pages["..k.."]="..v,"\n")
 end
 f:close()
