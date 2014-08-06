@@ -20,7 +20,7 @@ set rmargin 1
 unset key
 set multiplot
 
-set ylabel "Distance from\n cluster's centroid (CDF %)"
+set ylabel "Distance from centroids\n(CDF %)"
 #set xrange [0:4000]
 #set xtics ("0.1KB" 0.1, "1KB" 1,"10KB" 10,"100KB" 100, "1MB" 1000)
 set logscale x
@@ -96,6 +96,8 @@ plot \
 
 X_POS=0
 Y_POS=0
+set ylabel "Distance from centroids\n(CDF %)"
+
 set title "256 clusters" offset 0,-0.8
 
 set origin X_MARGIN+(X_POS*(WIDTH_IND+WIDTH_BETWEEN_X)), Y_MARGIN+(Y_POS*(HEIGHT_IND+WIDTH_BETWEEN_Y))
@@ -114,6 +116,7 @@ plot \
 X_POS=1
 Y_POS=0
 set title "512 clusters" offset 0,-0.8
+unset ylabel
 
 set origin X_MARGIN+(X_POS*(WIDTH_IND+WIDTH_BETWEEN_X)), Y_MARGIN+(Y_POS*(HEIGHT_IND+WIDTH_BETWEEN_Y))
 set size WIDTH_IND,HEIGHT_IND
