@@ -134,7 +134,7 @@ set title "1024 clusters" offset 0,-0.8
 
 set origin X_MARGIN+(X_POS*(WIDTH_IND+WIDTH_BETWEEN_X)), Y_MARGIN+(Y_POS*(HEIGHT_IND+WIDTH_BETWEEN_Y))
 set size WIDTH_IND,HEIGHT_IND
-set key samplen 1 width -1 at 2500,100
+set key samplen 1 width -1 at 345000,100
 plot \
 	'data/cdf_size_clusters_kmeans_1024.txt'  u ($1):($6*100)\
 		 w l ls 3 title 'KMeans',\
