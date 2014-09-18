@@ -42,19 +42,20 @@ for l in io.lines() do
 		for _,h in pairs(hops) do
 			local latencies_s =split(h,':')[3]
 			if latencies_s~=nil then 
+		
 				local lat_sum=0
 				local lat_values=0
 				for num in latencies_s:gmatch("(%d+)") do 
 					lat_sum= lat_sum+num
 					lat_values=lat_values+1
 				end
-				local avg=lat_sum/lat_values				
-				file_latencies:write(avg," ", latencies_s, "\n")
+				local avg_latencies_until_this_hop=lat_sum/lat_values
+				file_latencies:write(avg_latencies_until_this_hop, "\n")		
 			end
 	
 		end	
 	else
-		print("Error: Malformed line:",l)
+		--print("Error: Malformed line:",l)
 	end
 end
 stop_read=os.time()-start_read
