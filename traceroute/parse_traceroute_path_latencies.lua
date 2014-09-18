@@ -7,8 +7,7 @@ function split(s, sep)
        return res
 end
 
-local file_hops,err = io.open("traceroute_hops.txt","w")
-local file_latencies,err = io.open("traceroute_latencies.txt","w")
+local file_latencies,err = io.open("traceroute_path_latencies.txt","w")
 
 io.input("traceroute")
 start_read=os.time()
@@ -34,10 +33,10 @@ for l in io.lines() do
 	local s=tokens[2]
 	local d=tokens[3]
 	local path=tokens[5]
+	local path_latency=0
 	--now split the path, hops separated by ';'
 	if path~=nil then
 		local hops=split(path,';') 
-		file_hops:write(#hops,"\n")
 		--splite the latencies
 		for _,h in pairs(hops) do
 			local latencies_s =split(h,':')[3]
@@ -50,10 +49,11 @@ for l in io.lines() do
 					lat_values=lat_values+1
 				end
 				local avg_latencies_until_this_hop=lat_sum/lat_values
-				file_latencies:write(avg_latencies_until_this_hop, "\n")		
+				path_latency=path_latency+(lat_sum/lat_values)
 			end
 	
 		end	
+		file_latencies:write(path_latency, "\n")		
 	else
 		--print("Error: Malformed line:",l)
 	end
@@ -61,5 +61,4 @@ end
 stop_read=os.time()-start_read
 print("Reading took:", stop_read, "seconds")
 
-file_hops:close()
 file_latencies:close()
